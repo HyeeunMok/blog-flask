@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 import requests
+import smtplib
 
 
 posts_url = "https://api.npoint.io/43644ec4f0013682fc0d"
@@ -26,8 +27,24 @@ def contact():
         phone = request.form['phone']
         message = request.form['message']
 
+        send_email(name, email, phone, message)
         return render_template('contact.html', success_message=True)
     return render_template("contact.html", success_message=False)
+
+
+def send_email(name, email, phone, message):
+    email_message = f"Subject:New Message\n\nName: {name}\nEmail: {email}\nPhone:{phone}\nMessage: {message}"
+    # Replace to your email and password
+    sender_email = "xxxx@gmail.com"
+    sender_password = "xxxxx"
+    receiver_email = email
+    with smtplib.SMTP("smtp.gmail.com", 587) as connection:
+        connection.starttls()
+        connection.login(user=sender_email, password=sender_password)
+        connection.sendmail(
+            from_addr=sender_email,
+            to_addrs=receiver_email,
+            msg=email_message)
 
 
 @app.route("/post/<int:index>")
