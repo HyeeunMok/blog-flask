@@ -37,13 +37,13 @@ def send_email(name, email, phone, message):
     # Replace to your email and password
     sender_email = "xxxx@gmail.com"
     sender_password = "xxxxx"
-    receiver_email = email
+    recipient = email
     with smtplib.SMTP("smtp.gmail.com", 587) as connection:
         connection.starttls()
         connection.login(user=sender_email, password=sender_password)
         connection.sendmail(
             from_addr=sender_email,
-            to_addrs=receiver_email,
+            to_addrs=recipient,
             msg=email_message)
 
 
